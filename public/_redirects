@@ -1,0 +1,5 @@
+# Old WordPress addresses that the live site already redirects
+/photos            /photos-main/  301
+/photos/           /photos-main/  301
+/partners          /sponsor/      301
+/partners/         /sponsor/      301

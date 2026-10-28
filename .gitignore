@@ -1,0 +1,15 @@
+# build output
+dist/
+dist-*/
+
+# dependencies (none today)
+node_modules/
+
+# local-only
+.claude/
+.env
+.env.*
+*.log
+.DS_Store
+Thumbs.db
+.wrangler/

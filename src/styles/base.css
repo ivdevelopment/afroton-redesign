@@ -1,0 +1,94 @@
+/* ---------- reset & base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { background: var(--ink); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-padding-top: calc(var(--header-h) + 1rem); }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--text);
+  font: 400 var(--fs-body)/1.6 var(--f-body);
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+img, svg, video, iframe { display: block; max-width: 100%; }
+img { height: auto; }
+h1, h2, h3, h4, p, ul, ol, dl, dd, figure, blockquote, fieldset { margin: 0; }
+ul[role="list"], ol[role="list"] { list-style: none; padding: 0; }
+fieldset { border: 0; padding: 0; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+a { color: inherit; text-decoration-thickness: 0.08em; text-underline-offset: 0.18em; }
+b, strong { font-weight: 700; }
+address { font-style: normal; }
+[hidden] { display: none !important; }
+main:focus { outline: none; }
+
+::selection { background: var(--sun); color: var(--ink); }
+
+:focus-visible {
+  outline: 3px solid var(--sun);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+.on-light :focus-visible, .events :focus-visible, .energy :focus-visible, .page-light :focus-visible { outline-color: var(--flame); }
+
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0);
+  white-space: nowrap; border: 0;
+}
+
+.skip-link {
+  position: fixed; left: 1rem; top: -100px; z-index: 100;
+  background: var(--sun); color: var(--ink);
+  padding: 0.75rem 1.1rem; border-radius: 999px;
+  font: 400 1rem/1 var(--f-label); letter-spacing: 0.05em; text-transform: uppercase;
+  text-decoration: none;
+}
+.skip-link:focus { top: 1rem; }
+
+.wrap {
+  width: 100%;
+  max-width: calc(var(--wrap) + var(--gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* ---------- type ---------- */
+.display {
+  font-family: var(--f-brush);
+  font-weight: 400;
+  font-size: var(--fs-display);
+  line-height: 0.98;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+.eyebrow {
+  font: 400 var(--fs-label)/1.2 var(--f-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 0.7rem;
+}
+.eyebrow--sun { color: var(--sun); }
+
+.prose { max-width: 68ch; }
+.prose > * + * { margin-top: 1em; }
+.prose h2 { font: 400 clamp(1.35rem, 1.1rem + 0.9vw, 1.8rem)/1.15 var(--f-label); letter-spacing: 0.02em; text-transform: uppercase; margin-top: 2.2em; }
+.prose h3 { font-weight: 800; font-size: 1.1rem; margin-top: 1.6em; }
+.prose a { color: var(--rust); font-weight: 600; }
+.prose ul, .prose ol { padding-left: 1.25em; }
+.prose li + li { margin-top: 0.35em; }
+
+/* ---------- motion ---------- */
+/* hiding is instant (it happens off-screen); only the arrival is animated */
+.js .reveal { opacity: 0; transform: translateY(22px); transition: none; }
+.js .reveal.is-in { opacity: 1; transform: none; transition: opacity 0.8s var(--ease), transform 0.8s var(--ease); }
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal { opacity: 1; transform: none; transition: none; }
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+}

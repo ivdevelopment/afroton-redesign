@@ -1,0 +1,58 @@
+# Publish the unofficial Afroton redesign concept to GitHub Pages.
+# The site is static: no backend, no secrets, nothing sent to Afroton's services.
+name: Deploy concept to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# only what the Pages deployment needs
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# one deployment at a time; never cancel one that is already publishing
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test
+        run: npm test
+
+      - name: Configure Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
+      # base_path is "/<repository>" for a project site (empty for a custom domain); base_url is its public URL
+      - name: Build for GitHub Pages
+        run: node src/build.mjs --pages --base="${{ steps.pages.outputs.base_path }}/" --site-url="${{ steps.pages.outputs.base_url }}"
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
